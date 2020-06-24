@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1163</width>
-    <height>884</height>
+    <width>1284</width>
+    <height>974</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -143,7 +143,7 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;dfsdf&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Software">
        <attribute name="title">
@@ -1101,50 +1101,32 @@
           <layout class="QGridLayout" name="gridLayout_32">
            <item row="0" column="0">
             <layout class="QGridLayout" name="gridLayout_31">
-             <item row="0" column="1" colspan="2">
-              <widget class="QRadioButton" name="radioButton_TypeSimulationLS">
-               <property name="font">
-                <font>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
+             <item row="4" column="1" colspan="2">
+              <widget class="QRadioButton" name="radioButton_TypeSimulationLSCT">
                <property name="text">
-                <string>Longitudinal Strain (Uniform Strain)</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
+                <string>Long. Strain (Uni), Trans. Stress, Temperature</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1" colspan="2">
-              <widget class="QRadioButton" name="radioButton_TypeSimulationLSNUS">
-               <property name="font">
-                <font>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
+             <item row="8" column="1">
+              <widget class="QPushButton" name="pushButton_HelpTypeSimulationOSA">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
                <property name="text">
-                <string>Longitudinal Strain (Uniform + Non-Uniform Strain)</string>
+                <string>Help</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>DESIGN_Resource/Help.png</normaloff>DESIGN_Resource/Help.png</iconset>
                </property>
               </widget>
              </item>
-             <item row="2" column="1" colspan="2">
-              <widget class="QRadioButton" name="radioButton_TypeSimulationLSC">
-               <property name="font">
-                <font>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Longitudinal Strain (Uniform) and Transverse Stress</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="2">
-              <spacer name="verticalSpacer_5">
+             <item row="5" column="1">
+              <spacer name="verticalSpacer_6">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -1156,20 +1138,7 @@
                </property>
               </spacer>
              </item>
-             <item row="4" column="1">
-              <widget class="QLabel" name="label_26">
-               <property name="font">
-                <font>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Simulation Resolution (nm):</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="2">
+             <item row="6" column="2">
               <widget class="QLineEdit" name="lineEdit_SimulationResolution">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -1188,8 +1157,21 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
-              <spacer name="verticalSpacer_6">
+             <item row="6" column="1">
+              <widget class="QLabel" name="label_26">
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Simulation Resolution (nm):</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="2">
+              <spacer name="verticalSpacer_5">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -1201,20 +1183,52 @@
                </property>
               </spacer>
              </item>
-             <item row="6" column="1">
-              <widget class="QPushButton" name="pushButton_HelpTypeSimulationOSA">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+             <item row="2" column="1" colspan="2">
+              <widget class="QRadioButton" name="radioButton_TypeSimulationLSC">
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
                </property>
                <property name="text">
-                <string>Help</string>
+                <string>Longitudinal Strain (Uniform) and Transverse Stress</string>
                </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>DESIGN_Resource/Help.png</normaloff>DESIGN_Resource/Help.png</iconset>
+              </widget>
+             </item>
+             <item row="1" column="1" colspan="2">
+              <widget class="QRadioButton" name="radioButton_TypeSimulationLSNUS">
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Longitudinal Strain (Uniform + Non-Uniform Strain)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1" colspan="2">
+              <widget class="QRadioButton" name="radioButton_TypeSimulationLS">
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Longitudinal Strain (Uniform Strain)</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1" colspan="2">
+              <widget class="QRadioButton" name="radioButton_TypeSimulationT">
+               <property name="text">
+                <string>Temperature</string>
                </property>
               </widget>
              </item>
@@ -1586,64 +1600,28 @@
           <layout class="QGridLayout" name="gridLayout_33">
            <item row="1" column="1">
             <layout class="QGridLayout" name="gridLayout_22">
-             <item row="0" column="1" colspan="4">
-              <widget class="QLineEdit" name="lineEdit_PhotoElasticParam">
+             <item row="12" column="0">
+              <widget class="QLabel" name="label_29">
                <property name="enabled">
                 <bool>false</bool>
                </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="baseSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
-                <string>0.215</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Temperature (K, T&lt;span style=&quot; vertical-align:sub;&quot;&gt;0&lt;/span&gt; at 298K)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_4">
+             <item row="11" column="0">
+              <widget class="QLabel" name="label_48">
                <property name="enabled">
                 <bool>false</bool>
                </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Photo-Elastic parameter &lt;span style=&quot; font-weight:600;&quot;&gt;(p&lt;/span&gt;&lt;span style=&quot; font-weight:600; vertical-align:sub;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;) &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>Thermo-optic coefficient (K^-1)</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="1" colspan="4">
-              <widget class="QLineEdit" name="lineEdit_MeanChangeRefractiveIndex">
+             <item row="12" column="1" colspan="4">
+              <widget class="QLineEdit" name="lineEdit_Temperature">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -1654,62 +1632,7 @@
                 </font>
                </property>
                <property name="text">
-                <string>4.5E-4</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_9">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Initial effective refractive index&lt;/span&gt; (n&lt;span style=&quot; vertical-align:sub;&quot;&gt;eff&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_10">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Mean induced change in the refractive index&lt;/span&gt; (av(δn&lt;span style=&quot; vertical-align:sub;&quot;&gt;eff&lt;/span&gt;))&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="wordWrap">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1" colspan="4">
-              <widget class="QLineEdit" name="lineEdit_InitialRefractiveIndex">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="font">
-                <font>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>1.46</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_12">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Fringe Visibility &lt;/span&gt;(fv)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>298</string>
                </property>
               </widget>
              </item>
@@ -1923,6 +1846,175 @@
                </property>
                <property name="text">
                 <string>Max</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1" colspan="4">
+              <widget class="QLineEdit" name="lineEdit_PhotoElasticParam">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>0.215</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Photo-Elastic parameter &lt;span style=&quot; font-weight:600;&quot;&gt;(p&lt;/span&gt;&lt;span style=&quot; font-weight:600; vertical-align:sub;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;) &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1" colspan="4">
+              <widget class="QLineEdit" name="lineEdit_MeanChangeRefractiveIndex">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>4.5E-4</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Initial effective refractive index&lt;/span&gt; (n&lt;span style=&quot; vertical-align:sub;&quot;&gt;eff&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Mean induced change in the refractive index&lt;/span&gt; (av(δn&lt;span style=&quot; vertical-align:sub;&quot;&gt;eff&lt;/span&gt;))&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" colspan="4">
+              <widget class="QLineEdit" name="lineEdit_InitialRefractiveIndex">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>1.46</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Fringe Visibility &lt;/span&gt;(fv)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="0">
+              <widget class="QLabel" name="label_49">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Thermal Exp. coefficient (K^-1)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="1" colspan="4">
+              <widget class="QLineEdit" name="lineEdit_ThermalExpansion">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>5.5E-7</string>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="1" colspan="4">
+              <widget class="QLineEdit" name="lineEdit_ThermoOptic">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>1.1E-5</string>
                </property>
               </widget>
              </item>
@@ -3557,18 +3649,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>AbaqusODBSelectButton</sender>
-   <signal>clicked()</signal>
-   <receiver>actionSelectAbaqusPath</receiver>
-   <slot>trigger()</slot>
+   <sender>checkBox_AdvancedModeSelectionOSA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_48</receiver>
+   <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>859</x>
-     <y>256</y>
+     <x>225</x>
+     <y>387</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
+     <x>152</x>
+     <y>767</y>
     </hint>
    </hints>
   </connection>
@@ -4929,6 +5021,86 @@
     <hint type="destinationlabel">
      <x>-1</x>
      <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_AdvancedModeSelectionOSA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_49</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>387</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>152</x>
+     <y>736</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_AdvancedModeSelectionOSA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_29</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>387</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>152</x>
+     <y>798</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_AdvancedModeSelectionOSA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_ThermalExpansion</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>387</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>336</x>
+     <y>736</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_AdvancedModeSelectionOSA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_ThermoOptic</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>387</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>336</x>
+     <y>767</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_AdvancedModeSelectionOSA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_Temperature</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>387</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>336</x>
+     <y>798</y>
     </hint>
    </hints>
   </connection>

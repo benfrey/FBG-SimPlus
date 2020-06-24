@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" This Python Class contains all the functions needed to build the GUI 
+""" This Python Class contains all the functions needed to build the GUI
 interface, and to test all the INPUT parameters.
 
 Author: Gilmar Pereira & Ben Frey
@@ -47,12 +47,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 #----------------Main Window Class---------------------------------------------
 class MyPlotMainWindow(QtMainWindowLoader):
     """
-    This is the Main Window UI Class.    
-    
+    This is the Main Window UI Class.
+
     _Init_- It converts the QTdesign file in a Python Script using the class
     QTGUILoader. It connects all the actions in the UI with the Python Code.
-    Also it creates the internal variables that will be submitted later to the 
-    other developed tools.    
+    Also it creates the internal variables that will be submitted later to the
+    other developed tools.
     """
     def __init__(self):
         """
@@ -62,21 +62,21 @@ class MyPlotMainWindow(QtMainWindowLoader):
         try:self.ui = self.module.Ui_Form() # Enables autocompletion
         except: pass
         QtMainWindowLoader.__init__(self, self.module)
-        
+
         #Start the MessageBoard used to plot errors
         self.ui.MessageBoard.insertPlainText('>>')
-        
+
         #Empty Dict. with path coordinates (Extract Stress/strain)
         self.PathCoordinates={}
         self.PathNumber=0
-        
+
         #Empty list with FBG position and FBG array original wavelength-OSA
         self.FBGPosition=[]
         self.FBGOriginalWavel=[]
         #Empty list with FBG position and FBG array original wavelength-TR
         self.FBGPositionTR=[]
         self.FBGOriginalWavelTR=[]
-        
+
     """--------------------------Tool Bar Buttons----------------------"""
     #Push Button:Wedbsite
     def actionCopyrigth(self):
@@ -113,20 +113,20 @@ class MyPlotMainWindow(QtMainWindowLoader):
 
     def actionSoftwareDoc(self):
         webbrowser.open('Software_Documentation.pdf')
-        
+
     def actionExitProgram(self):
-        self.terminate()       
-        
+        self.terminate()
+
     """--------------------------Tab Extract Stress/Strain-----------------
     In here, it is presented all the functions used in the Tab: Extract Stress/strain
     to extract a file which contains the stress and strain along an optical
     fibre path. This tool was developed for 2D and 3D models in ABAQUS."""
 
-    #Push Button: Select Abaqus Path; 
+    #Push Button: Select Abaqus Path;
     def actionSelectAbaqusPath(self):
         selectedfile = str(QtWidgets.QFileDialog.getOpenFileName(self, "Select Abaqus ODB file (.odb)",'*.odb'))[0]
         self.ui.AbaqusODBFile.setText(selectedfile)
-        
+
     #-------------------Path Coordinates Section------------------------------
     #Push Button: Add new Path
     def actionAdd_Path_Coordinates(self):
@@ -143,8 +143,8 @@ class MyPlotMainWindow(QtMainWindowLoader):
                 tempvector=tempvector.split(';',99) # Splits the vector in points- Divided By ;
                 self.PathCoordinates[str(self.PathNumber+1)]=[] #Creates an empty list to store the correct values
                 for i in np.arange(0,len(tempvector)): #Cycle to all the points inserted
-                    icoordinate=tempvector[i]                    
-                    icoordinate=icoordinate.replace(' ','')#Remove all the White spaces                    
+                    icoordinate=tempvector[i]
+                    icoordinate=icoordinate.replace(' ','')#Remove all the White spaces
                     icoordinate=icoordinate.replace('(','')#Remove parenthesis(.
                     icoordinate=icoordinate.replace(')','')#Remove parenthesis).
                     try:
@@ -159,7 +159,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
                     else:
                         #Now that the input passed the test, let's add it to the dictonary: PathCoordinates
                         self.PathCoordinates[str(self.PathNumber+1)].append(icoordList)
-                        
+
             self.PathNumber+=1 #Add 1 to the path number counter
             #Write in the Plain Text Edit the created path coordinate
             self.ui.PathCoordinatesInputList.insertPlainText('Path No.'+str(self.PathNumber)+'\n'+ str(self.PathCoordinates[str(self.PathNumber)])+'\n')
@@ -169,52 +169,52 @@ class MyPlotMainWindow(QtMainWindowLoader):
        #Remove the entry from the dictonary: PathCoordinates
        map(self.PathCoordinates.pop,str(self.PathNumber))
        self.PathNumber-=1 # Subtract 1 to the path number counter
-       
+
        # Remove the entry from the Plain Text Edit
-       self.ui.PathCoordinatesInputList.setPlainText('') 
+       self.ui.PathCoordinatesInputList.setPlainText('')
        tempPathNumber=1
        for o in np.arange(0,self.PathNumber):
            self.ui.PathCoordinatesInputList.insertPlainText('Path No.'+str(tempPathNumber)+'\n'+ str(self.PathCoordinates[str(tempPathNumber)])+'\n')
            tempPathNumber+=1
- 
-    #-------------------Radio Button Controllers ------------------------------     
+
+    #-------------------Radio Button Controllers ------------------------------
     def actionToggleDefaultCoordinate(self):
         self.ui.radioButton_UserDefinedCoordinate.setChecked(False)
         self.ui.radioButton_VectorNewCoordinate.setChecked(False)
-        
+
     def actionToggleUserDefinedCoordinate(self):
         self.ui.radioButton_VectorNewCoordinate.setChecked(False)
-        self.ui.radioButton_DefaultCoordinate.setChecked(False)        
-    
+        self.ui.radioButton_DefaultCoordinate.setChecked(False)
+
     def actionToggleVectorNewCoordinate(self):
         self.ui.radioButton_DefaultCoordinate.setChecked(False)
         self.ui.radioButton_UserDefinedCoordinate.setChecked(False)
-    
+
     def actionToggleAllDisplacement(self):
         self.ui.radioButton_SpecificDisplacement.setChecked(False)
-        
+
     def actionToggleSpecificDisplacement(self):
         self.ui.radioButton_AllDisplacement.setChecked(False)
-        
+
     #---------------------Submit to Abaqus Section-----------------------------
-    """In this section, the input data is checked before submit to Abaqus"""    
+    """In this section, the input data is checked before submit to Abaqus"""
     #Push Button: Select the path where the output will be saved.
     def actionSelectOutputPath(self):
         selectdir = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Abaqus ODB file (.odb)"))
         self.ui.lineEdit_OutputPath.setText(selectdir)
-        
-    #Push Button: Submit job to Abaqus    
+
+    #Push Button: Submit job to Abaqus
     def actionSubmitToAbaqus(self):
         #------Check if input is correct and all the options are selected------
         if self.ui.AbaqusODBFile.text()=='': # Check if Abaqus path is empty
             self.ui.MessageBoard.insertPlainText('>>ERROR!!: Please select an Abaqus file (.odb). \n')
             return
-            
+
         #Radio Button User-defined: Check if Coordinate name was inserted
         if self.ui.radioButton_UserDefinedCoordinate.isChecked() and self.ui.lineEdit_UserDefinedCoordinate.text()=='':
             self.ui.MessageBoard.insertPlainText('>>ERROR!!: Please insert the name of the user-defined coordinate system. \n')
             return
-            
+
         #Radio Button Vector new coordinates: Check the format of the vector
         if self.ui.radioButton_VectorNewCoordinate.isChecked():
             if self.ui.lineEdit_VectorNewCoordinate.text()=='': # Check if it is empty
@@ -222,7 +222,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
                 return
             else: # Check the format
                 tempvector=self.ui.lineEdit_VectorNewCoordinate.text()
-                tempvector=tempvector.split(';',3)    
+                tempvector=tempvector.split(';',3)
                 if len(tempvector)!= 3.0: #Check if the vector have 3 points.
                     self.ui.MessageBoard.insertPlainText('>>ERROR!!: --Wrong format-- The vector with the new coordinate system direction doesn\'t match the required format. \n')
                     return
@@ -245,12 +245,12 @@ class MyPlotMainWindow(QtMainWindowLoader):
                 Olist=map(float,OCoordinate.split(','))
                 Xlist=map(float,XCoordinate.split(','))
                 Ylist=map(float,YCoordinate.split(','))
-                                
+
                 #Check if the list is correct: each coordinate have 3 points x,y,z
                 if np.size(Olist)!=3 or np.size(Xlist)!=3 or np.size(Ylist)!=3:
                     self.ui.MessageBoard.insertPlainText('>>ERROR!!: --Wrong format-- The vector with the new coordinate system direction doesn\'t match the required format.\n')
                     return
-                
+
                 #Create a global variable_dictionary with the "correct" vector for the new coordinate system direction
                 self.NewCoordinateSystem={}
                 self.NewCoordinateSystem['0']=Olist
@@ -260,7 +260,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
         if self.ui.PathCoordinatesInputList.toPlainText()=='':
             self.ui.MessageBoard.insertPlainText('>>ERROR!!: Please insert a Path.\n')
             return
-                
+
           #-----------Check the specific displacement step---------------------
         if self.ui.radioButton_SpecificDisplacement.isChecked():
             if self.ui.lineEdit_SpecificDisplacement.text()=='':
@@ -270,8 +270,8 @@ class MyPlotMainWindow(QtMainWindowLoader):
             if str(self.ui.lineEdit_SpecificDisplacement.text()).isdigit()==False:
                 self.ui.MessageBoard.insertPlainText('>>ERROR!!: Specific displacement step invalid format. Please insert an integer number.')
                 return
-    
-          #-----------Check the output path---------------------------------------- 
+
+          #-----------Check the output path----------------------------------------
         if self.ui.lineEdit_OutputPath.text()=='':
             self.ui.MessageBoard.insertPlainText('>>ERROR!!: Please select a folder to write the output file. \n')
             return
@@ -280,9 +280,9 @@ class MyPlotMainWindow(QtMainWindowLoader):
             """
         #Generate data that will be submitted to the class Extract_Abaqus_Stress
         Odbpath=str(self.ui.AbaqusODBFile.text())
-        
+
         Writefolder=str(self.ui.lineEdit_OutputPath.text())
-        
+
         #PathCoordinates is self.PathCoordinates
         PathCoordinates=self.PathCoordinates
         #RotateAxis: 0- Default; 1- User-Defined; 2- Vector with new coordinates
@@ -298,26 +298,26 @@ class MyPlotMainWindow(QtMainWindowLoader):
             RotateAxis=2
             UserDefinedCoordinate=None
             VectorNewCoordinate=self.NewCoordinateSystem
-            
+
         # DisplacementStep: 0-all displacement; 1- Specific displacement step
         if self.ui.radioButton_AllDisplacement.isChecked():
-           DisplacementStep=0 
+           DisplacementStep=0
            SpecificDisplacement=None
         if self.ui.radioButton_SpecificDisplacement.isChecked():
             DisplacementStep=1
             SpecificDisplacement=str(self.ui.lineEdit_SpecificDisplacement.text())
-            
-       #------------------Generate Abaqus Python File--------------------------       
+
+       #------------------Generate Abaqus Python File--------------------------
         from ExtractAbaqusStress import ExtractAbaqus#Class to extract stress and strain along a path in ABAQUS
-        
+
         sendabaqus=ExtractAbaqus(Odbpath,Writefolder,PathCoordinates,RotateAxis,DisplacementStep,SpecificDisplacement,UserDefinedCoordinate,VectorNewCoordinate)
-        sendabaqus.createPyFile()    
+        sendabaqus.createPyFile()
         self.ui.MessageBoard.insertPlainText('>> Input file successful generated. \n')
-      
+
         #Send to Abaqus
         sendabaqus.submitAbaqus()
         self.ui.MessageBoard.insertPlainText('>> Stress and Strain along path successful created. \n')
-        
+
     """Help pushButton-------------------------------------------------------"""
     #Help Button in Extract Stress/Strain Tab
     def actionHelpStressStrainExtract(self):
@@ -328,8 +328,8 @@ class MyPlotMainWindow(QtMainWindowLoader):
         \n -Create multiple paths, to extract multiple fibre lines.\
         \n -Extract the stress/strain data from specific or all step increments.\
         \n\nFor more information check the user-manual: Section 4.")
-            
-    def actionHelpRotateAxisCoordinate(self):        
+
+    def actionHelpRotateAxisCoordinate(self):
         QtWidgets.QMessageBox.information(self, "Help - Rotate Axis",
         "In the station (2) Rotate Coordinate System, the user have the possibility to rotate the coordinate axis. This allows the user to match the model axis direction with the optical fibre direction.\n \
          \nThe user have the following options:\n\n\
@@ -337,38 +337,38 @@ class MyPlotMainWindow(QtMainWindowLoader):
          -User-defined coordinate sytem: uses a user-defined coordinate system, created during themodel development; Input: name of the user-defined coordinate system.\n\
          -Vector with new coordinate system directions: uses a vector to defined the new coordinate sytem direction. Input format: (x0,y0,y0);(x1,y1,y1);(x2,y2,y2); 0- origin; 1- x direction; 2- y direction.\
          \n\nFor more information check the user-manual: Section 4.2.")
-        
+
     def actionHelpPathCoordinates(self):
         QtWidgets.QMessageBox.information(self, "Help - Optical Fibre Path Coordinates",
         "In the station (3) Optical Fibre Path Coordinates, the user is asked to insert the optical fibre path coordinates. This path represents the virtual location of the optical fibre line in the FEM model. Each path should have a minimum of two points, but multiple paths can be inserted.\n \
         \nInput format: (x0,y0,y0);(x1,y1,y1);...(x...,y...,y...);\
          \n\nFor more information check the user-manual: Section 4.3.")
-    
+
     def actionHelpDisplacementStep(self):
         QtWidgets.QMessageBox.information(self, "Help - Time increment (Step)",
         "In station (4) Time increment, the user can select between two time increment options to extract the stress/strain: All time increments or specific time increment.\n \
         \nThe software will name the output files accordingly with the increment number.\
          \n\nFor more information check the user-manual: Section 4.4.")
-        
+
     """-------------------Signal Simulation Section (OSA)-------------------"""
     #Push Button: Load the .txt files with stress and strain along a fiber
     def actionLoadFolderOSA(self):
         selectedfile = QtWidgets.QFileDialog.getOpenFileNames(self, "Select file(s) with stress and strain along the path (.txt).",'*.txt')[0]
         self.ui.listWidget_stressStrainFiles.addItems(selectedfile)
         #self.ui.listWidget_stressStrainFiles.sortItems(0) #Sort the items
-        
-    #Push Button: Remove loaded files  
+
+    #Push Button: Remove loaded files
     def actionRemoveFileStressStrain(self):
         SelectedItem=self.ui.listWidget_stressStrainFiles.currentRow()
         self.ui.listWidget_stressStrainFiles.takeItem(SelectedItem)
-        
-    #Push Button: Add FBG array position    
+
+    #Push Button: Add FBG array position
     def actionAddFBGPosition(self):
         #Empty List with FBG array position
         self.FBGPosition=[]
         #Clear the EditBox
-        self.ui.textEdit_FBGPosition.setText('')        
-        #Number of FBG per fibre      
+        self.ui.textEdit_FBGPosition.setText('')
+        #Number of FBG per fibre
         numberFBG=self.ui.spinBox_NumberFBG.value()
         for i in range(0,numberFBG):
             position, ok = QtWidgets.QInputDialog.getText(self, 'FBG:'+str(i+1)+' position','Insert the FBG:'+str(i+1)+' position. (mm or m from the begin of the line)')
@@ -389,29 +389,29 @@ class MyPlotMainWindow(QtMainWindowLoader):
                             QtWidgets.QMessageBox.warning(self, "Error",'The FBG position should be larger than the previous inserted.')
                             self.FBGPosition=[] #Clear the list with FBG array position
                             self.ui.textEdit_FBGPosition.setText('') #Clear the EditBox
-                            return                        
+                            return
                     self.FBGPosition.append(position)#save in a local variable
                     #Write in the EditBox
                     self.ui.textEdit_FBGPosition.insertPlainText('FBG '+str(i+1)+': '+str(position)+' (mm or m) \n')
             else:
                 return
-    #Push Button: Clear the FBG array position    
+    #Push Button: Clear the FBG array position
     def actionClearFBGPosition(self):
         #Clear the list with FBG array position
         self.FBGPosition=[]
         #Clear the EditBox
         self.ui.textEdit_FBGPosition.setText('')
-        
+
     #Push Button: Auto- Add FBG original wavelength automatically based on the number of FBG sensors per fibre
-    def actionAutoOSA(self):        
+    def actionAutoOSA(self):
         #Empty List with FBG array original wavelength (nm)
         self.FBGOriginalWavel=[]
         #Clear the EditBox
-        self.ui.textEdit_FBGOriginalWavelength.setText('')        
-        #Number of FBG per fibre      
+        self.ui.textEdit_FBGOriginalWavelength.setText('')
+        #Number of FBG per fibre
         numberFBG=self.ui.spinBox_NumberFBG.value()
         #minimum bandwidth wavelength
-        minwav=float(self.ui.lineEdit_MinBandWidth.text())        
+        minwav=float(self.ui.lineEdit_MinBandWidth.text())
         #mmaximum bandwidth wavelength
         maxwav=float(self.ui.lineEdit_MaxBandWidth.text())
         #Distance between FBG
@@ -420,14 +420,14 @@ class MyPlotMainWindow(QtMainWindowLoader):
             self.FBGOriginalWavel.append(minwav+FBGincrem*(i+1))
             #Write in the EditBox
             self.ui.textEdit_FBGOriginalWavelength.insertPlainText('FBG '+str(i+1)+': '+str(minwav+FBGincrem*(i+1))+' (nm) \n')
-        
-    #Push Button: Add FBG original wavelength   
+
+    #Push Button: Add FBG original wavelength
     def actionAddFBGOriginalWavelength(self):
         #Empty List with FBG array original wavelength (nm)
         self.FBGOriginalWavel=[]
         #Clear the EditBox
-        self.ui.textEdit_FBGOriginalWavelength.setText('')        
-        #Number of FBG per fibre      
+        self.ui.textEdit_FBGOriginalWavelength.setText('')
+        #Number of FBG per fibre
         numberFBG=self.ui.spinBox_NumberFBG.value()
         for i in range(0,numberFBG):
             wavelength, ok = QtWidgets.QInputDialog.getText(self, 'FBG:'+str(i+1)+' original wavelength','Insert the FBG:'+str(i+1)+' original wavelength. (in nm)')
@@ -448,14 +448,14 @@ class MyPlotMainWindow(QtMainWindowLoader):
                             QtWidgets.QMessageBox.warning(self, "Error",'The FBG original wavelength should be larger than the previous inserted.')
                             self.FBGOriginalWavel=[] #Clear the list with FBG original wavelength position
                             self.ui.textEdit_FBGOriginalWavelength.setText('') #Clear the EditBox
-                            return                        
+                            return
                     self.FBGOriginalWavel.append(wavelength)#save in a local variable
                     #Write in the EditBox
                     self.ui.textEdit_FBGOriginalWavelength.insertPlainText('FBG '+str(i+1)+': '+str(wavelength)+' (nm) \n')
             else:
-                return   
-                
-    #Push Button: Clear the FBG Original Wavelength   
+                return
+
+    #Push Button: Clear the FBG Original Wavelength
     def actionClearFBGOriginalWavelength(self):
         #Clear the list with FBG array position
         self.FBGOriginalWavel=[]
@@ -463,19 +463,37 @@ class MyPlotMainWindow(QtMainWindowLoader):
         self.ui.textEdit_FBGOriginalWavelength.setText('')
 
 
-    #-------------------Radio Button Type of Simulation -----------------------    
+    #-------------------Radio Button Type of Simulation -----------------------
     def actionToggleTypeSimulationLS(self):
         self.ui.radioButton_TypeSimulationLSNUS.setChecked(False)
         self.ui.radioButton_TypeSimulationLSC.setChecked(False)
-        
+        self.ui.radioButton_TypeSimulationT.setChecked(False)
+        self.ui.radioButton_TypeSimulationLSCT.setChecked(False)
+
     def actionToggleTypeSimulationLSNUS(self):
         self.ui.radioButton_TypeSimulationLS.setChecked(False)
-        self.ui.radioButton_TypeSimulationLSC.setChecked(False)        
+        self.ui.radioButton_TypeSimulationLSC.setChecked(False)
+        self.ui.radioButton_TypeSimulationT.setChecked(False)
+        self.ui.radioButton_TypeSimulationLSCT.setChecked(False)
 
     def actionToggleTypeSimulationLSC(self):
         self.ui.radioButton_TypeSimulationLSNUS.setChecked(False)
         self.ui.radioButton_TypeSimulationLS.setChecked(False)
-    
+        self.ui.radioButton_TypeSimulationT.setChecked(False)
+        self.ui.radioButton_TypeSimulationLSCT.setChecked(False)
+
+    def actionToggleTypeSimulationT(self):
+        self.ui.radioButton_TypeSimulationLSNUS.setChecked(False)
+        self.ui.radioButton_TypeSimulationLS.setChecked(False)
+        self.ui.radioButton_TypeSimulationLSC.setChecked(False)
+        self.ui.radioButton_TypeSimulationLSCT.setChecked(False)
+
+    def actionToggleTypeSimulationLSCT(self):
+        self.ui.radioButton_TypeSimulationLSNUS.setChecked(False)
+        self.ui.radioButton_TypeSimulationLS.setChecked(False)
+        self.ui.radioButton_TypeSimulationLSC.setChecked(False)
+        self.ui.radioButton_TypeSimulationT.setChecked(False)
+
     #-------------------Radio Button Input Units -----------------------
     def actionToggleInputUnitsSIM(self):
         self.ui.radioButton_InputUnitsSIMM.setChecked(False)
@@ -483,14 +501,13 @@ class MyPlotMainWindow(QtMainWindowLoader):
     def actionToggleInputUnitsSIMM(self):
         self.ui.radioButton_InputUnitsSIM.setChecked(False)
 
-
     #---------------------Generate the Spectrum Section-----------------------------
-    """In this section, the input data is checked before generate the spectrum"""  
+    """In this section, the input data is checked before generate the spectrum"""
     #Push Button: Generate
     def actionOsaGenerate(self):
         #Progress Bar
-        self.ui.progressBar.setValue(0)     
-        #Check if input file is generated        
+        self.ui.progressBar.setValue(0)
+        #Check if input file is generated
         SelectedInput=self.ui.listWidget_stressStrainFiles.currentRow()
         if SelectedInput==-1:
             self.ui.MessageBoard.insertPlainText('>>ERROR in (1)!!: Please Select an Input file. \n')
@@ -505,7 +522,10 @@ class MyPlotMainWindow(QtMainWindowLoader):
             or self.ui.lineEdit_YoungsModule.text()=='' \
             or self.ui.lineEdit_PoissionsCoefficient.text()=='' \
             or self.ui.lineEdit_MinBandWidth.text()=='' \
-            or self.ui.lineEdit_MaxBandWidth.text()=='':
+            or self.ui.lineEdit_MaxBandWidth.text()==''\
+            or self.ui.lineEdit_ThermalExpansion.text()=='' \
+            or self.ui.lineEdit_ThermoOptic.text()=='' \
+            or self.ui.lineEdit_Temperature.text()=='':
                 self.ui.MessageBoard.insertPlainText('>>ERROR in (3)!!: Please insert all optical fibre parameters. \n')
                 self.ui.progressBar.setValue(0)
                 return
@@ -520,14 +540,17 @@ class MyPlotMainWindow(QtMainWindowLoader):
             float(self.ui.lineEdit_PoissionsCoefficient.text())
             float(self.ui.lineEdit_MinBandWidth.text())
             float(self.ui.lineEdit_MaxBandWidth.text())
+            float(self.ui.lineEdit_ThermalExpansion.text())
+            float(self.ui.lineEdit_ThermoOptic.text())
+            float(self.ui.lineEdit_Temperature.text())
         except:
             self.ui.MessageBoard.insertPlainText('>>ERROR in (3)!!: Invalid format!! --Optical fibre parameters. \n')
-            self.ui.progressBar.setValue(0)  
+            self.ui.progressBar.setValue(0)
             return
 
         #Progress Bar
-        self.ui.progressBar.setValue(10)            
-        
+        self.ui.progressBar.setValue(10)
+
         #Check if tolerance and FBG length were inserted
         if self.ui.lineEdit_FBGlength.text()=='':
             self.ui.MessageBoard.insertPlainText('>>ERROR in (4)!!: Please insert the FBG length. \n')
@@ -538,7 +561,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
             self.ui.MessageBoard.insertPlainText('>>ERROR in (4)!!: Invalid format!! --FBG length. \n')
             self.ui.progressBar.setValue(0)
             return
-   
+
         if self.ui.lineEdit_tolerance.text()=='':
             self.ui.MessageBoard.insertPlainText('>>ERROR in (4)!!: Please insert the tolerance. \n')
             return
@@ -570,10 +593,10 @@ class MyPlotMainWindow(QtMainWindowLoader):
             self.ui.MessageBoard.insertPlainText('>>ERROR in (2)!!: Invalid format!! --Simulation resolution. \n')
             self.ui.progressBar.setValue(0)
             return
-        """ Now that the input data is corrected lets prepare it to submit 
+        """ Now that the input data is corrected lets prepare it to submit
          to the OSASimulation Class"""
         self.ui.progressBar.setValue(30)#Progress Bar
-        
+
         #First call the function OSASimulation.LoadFile- To generate the FBG Data that contains the stress and strain per FBG
         filename=self.ui.listWidget_stressStrainFiles.item(SelectedInput).text().replace("\\","/",99) # string Name of the input file
         NumberFBG=self.ui.spinBox_NumberFBG.value() #Int Number FBG
@@ -585,7 +608,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
             self.InputUnits=0
         else:
             self.InputUnits=1
-        
+
         #Start the OSASimulation function
         self.Osa=OSASimulation(filename,NumberFBG,FBGlength,Tolerance,SkipRow,self.FBGPosition,self.InputUnits)
 
@@ -600,16 +623,19 @@ class MyPlotMainWindow(QtMainWindowLoader):
         PoissionsCoefficient=float(self.ui.lineEdit_PoissionsCoefficient.text())
         MinBandWidth=float(self.ui.lineEdit_MinBandWidth.text())
         MaxBandWidth=float(self.ui.lineEdit_MaxBandWidth.text())
+        ThermalExpansion=float(self.ui.lineEdit_ThermalExpansion.text())
+        ThermoOptic=float(self.ui.lineEdit_ThermoOptic.text())
+        Temperature=float(self.ui.lineEdit_Temperature.text())
         SimulationResolution=float(self.ui.lineEdit_SimulationResolution.text())
-        
-        self.ui.progressBar.setValue(50)#Progress Bar 
-        
+
+        self.ui.progressBar.setValue(50)#Progress Bar
+
         #Generate the undeformed FBG signal
         if self.ui.checkBox_UndeformedSignal.isChecked():
             self.Osa.UndeformedFBG(self.FBGOriginalWavel,PhotoElasticParam,InitialRefractiveIndex,MeanChangeRefractiveIndex,FringeVisibility,MinBandWidth,MaxBandWidth,SimulationResolution)
 
-        self.ui.progressBar.setValue(75)#Progress Bar 
-            
+        self.ui.progressBar.setValue(75)#Progress Bar
+
         #FBG sensor direction 0-xx 1-yy 2-zz
         self.FBGDirection=self.ui.comboBox_FBGDirection.currentIndex()
 
@@ -624,11 +650,19 @@ class MyPlotMainWindow(QtMainWindowLoader):
         #Generate the FBG signal: Longitudinal Strain + Transverse Strain
         if self.ui.radioButton_TypeSimulationLSC.isChecked():
             self.Osa.TransverseStrain(self.FBGOriginalWavel,PhotoElasticParam,InitialRefractiveIndex,MeanChangeRefractiveIndex,FringeVisibility,MinBandWidth,MaxBandWidth,SimulationResolution,self.FBGDirection,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissionsCoefficient)
-            
+
+        #Generate the FBG signal: Temperature
+        if self.ui.radioButton_TypeSimulationT.isChecked():
+            self.Osa.Temperature(self.FBGOriginalWavel,PhotoElasticParam,InitialRefractiveIndex,MeanChangeRefractiveIndex,FringeVisibility,MinBandWidth,MaxBandWidth,SimulationResolution,self.FBGDirection,ThermalExpansion,ThermoOptic,Temperature)
+
+        #Generate the FBG signal: Longitudinal Strain + Transverse Strain + Temperature
+        if self.ui.radioButton_TypeSimulationLSCT.isChecked():
+            self.Osa.TransverseStrainTemperature(self.FBGOriginalWavel,PhotoElasticParam,InitialRefractiveIndex,MeanChangeRefractiveIndex,FringeVisibility,MinBandWidth,MaxBandWidth,SimulationResolution,self.FBGDirection,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissionsCoefficient,ThermalExpansion,ThermoOptic,Temperature)
+
         #Generates the summaryzed Data
-        self.Osa.FBGOutputSum(self.FBGOriginalWavel,PhotoElasticParam,InitialRefractiveIndex,self.FBGDirection,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissionsCoefficient)    
-            
-        self.ui.progressBar.setValue(100) #Progress Bar 
+        self.Osa.FBGOutputSum(self.FBGOriginalWavel,PhotoElasticParam,InitialRefractiveIndex,self.FBGDirection,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissionsCoefficient,ThermalExpansion,ThermoOptic,Temperature)
+
+        self.ui.progressBar.setValue(100) #Progress Bar
         #Message
         self.ui.MessageBoard.insertPlainText(">> The FBG reflected spectrum was successfully simulated. \n ")
 
@@ -648,10 +682,10 @@ class MyPlotMainWindow(QtMainWindowLoader):
         try:fsize=len(self.Osa.USReflect['wavelength'])
         except:pass
         try:fsize=len(self.Osa.NUSReflect['wavelength'])
-        except:pass            
+        except:pass
         try:fsize=len(self.Osa.TSYReflect['wavelength'])
         except:pass
-    
+
         if fsize:
             saveFile = str(QtWidgets.QFileDialog.getSaveFileName(self, "Save FBG Spectrum Plot as a file.",'*.txt'))[0]
             if saveFile!='':
@@ -665,13 +699,17 @@ class MyPlotMainWindow(QtMainWindowLoader):
                     savefile.write("Longitudinal Strain (Non-Uniform Strain) \n")
                 if self.ui.radioButton_TypeSimulationLSC.isChecked():
                     savefile.write("Longitudinal strain (US) and Transverse stress \n")
-                savefile.write("\n ------FBG array configuration------ \n")                    
-                savefile.write("Number of FBG sensors: "+str(self.Osa.NumberFBG)+" \n")    
+                if self.ui.radioButton_TypeSimulationT.isChecked():
+                    savefile.write("Temperature \n")
+                if self.ui.radioButton_TypeSimulationLSCT.isChecked():
+                    savefile.write("Longitudinal strain (US) and Transverse stress and Temperature \n")
+                savefile.write("\n ------FBG array configuration------ \n")
+                savefile.write("Number of FBG sensors: "+str(self.Osa.NumberFBG)+" \n")
                 savefile.write("FBG length (mm): "+str(self.Osa.FBGLength)+" \n")
-                savefile.write("Tolerance (mm): "+str(self.Osa.Tolerance)+" \n")                     
-                savefile.write("FBG position (mm): "+str(self.Osa.FBGPosition)+" \n") 
+                savefile.write("Tolerance (mm): "+str(self.Osa.Tolerance)+" \n")
+                savefile.write("FBG position (mm): "+str(self.Osa.FBGPosition)+" \n")
                 savefile.write("FBG original wavelength (nm): "+str(self.Osa.FBGOriginalWavel)+" \n \n")
-                
+
                 #Write FBG summary
                 savefile.write('FBG number | Original Wavelength | Wavelength shift | Width variation \n')
                 for b in np.arange(0,self.Osa.NumberFBG):
@@ -689,12 +727,13 @@ class MyPlotMainWindow(QtMainWindowLoader):
                         savefile.write("Wavelength (nm) \t Reflectivity:Undeformed Shape  \t Reflectivity: Longitudinal Strain (Non-Uniform Strain) \n")
                     else:
                         savefile.write("Wavelength (nm) \t Reflectivity: Longitudinal Strain (Non-Uniform Strain) \n")
-                    
+
                 if self.ui.radioButton_TypeSimulationLSC.isChecked():# Longitudinal strain + transverse strain
                     if self.ui.checkBox_UndeformedSignal.isChecked():
                         savefile.write("Wavelength (nm) \t Reflectivity:Undeformed Shape  \t Reflectivity: Longitudinal Strain + Transverse Stress (Y Wave) \t Reflectivity: Longitudinal Strain + Transverse Stress (Z Wave) \n")
                     else:
                         savefile.write("Wavelength (nm)\t Reflectivity: Longitudinal Strain + Transverse Stress (Y Wave) \t Reflectivity: Longitudinal Strain + Transverse Stress (Z Wave) \n")
+
                 # Write the Data
                 for b in np.arange(0,fsize):
                     if self.ui.radioButton_TypeSimulationLS.isChecked(): #Longitudinal Strain
@@ -708,14 +747,14 @@ class MyPlotMainWindow(QtMainWindowLoader):
                             savefile.write('%5f \t %5f \t %5f \n' % (self.Osa.NUSReflect['wavelength'][b],self.Osa.OReflect['reflec'][b],self.Osa.NUSReflect['reflec'][b]))
                         else:
                             savefile.write('%5f \t %5f \n' % (self.Osa.NUSReflect['wavelength'][b],self.Osa.NUSReflect['reflec'][b]))
-                        
+
                     if self.ui.radioButton_TypeSimulationLSC.isChecked():# Longitudinal strain + transverse strain
                         if self.ui.checkBox_UndeformedSignal.isChecked():
                             savefile.write('%5f \t %5f \t %5f \t %5f \n' % (self.Osa.TSYReflect['wavelength'][b],self.Osa.OReflect['reflec'][b],self.Osa.TSYReflect['reflec'][b],self.Osa.TSZReflect['reflec'][b]))
                         else:
                             savefile.write('%5f \t %5f \t %5f \n' % (self.Osa.TSYReflect['wavelength'][b],self.Osa.TSYReflect['reflec'][b],self.Osa.TSZReflect['reflec'][b]))
                 savefile.close()
-            
+
         else:
             self.ui.MessageBoard.insertPlainText(">> Error!! Please simulated the FBG spectrum before saving as file. \n ")
             return
@@ -730,8 +769,8 @@ class MyPlotMainWindow(QtMainWindowLoader):
         \n-Multiple FBGs per fibre;\
         \n-User-defined FBG array configuration;\
         \n\nFor more information check the user-manual: Section 5.")
-        
-        
+
+
     def actionHelpFileFormatOSA(self):
         QtWidgets.QMessageBox.information(self, "Help - File Format OSA",
         "The input must have the following format:\
@@ -757,18 +796,18 @@ class MyPlotMainWindow(QtMainWindowLoader):
         \n-Longitudinal Strain (Uniform Strain): In this option only uniform strain acting in the longitudinal direction of the FBG sensor is considered;\
         \n-Longitudinal Strain (Uniform+Non-UniformStrain): In this option the effect of Non-uniform strain acting in the longitudinal direction of the FBG sensor is considered;\
         \n-Longitudinal Strain (Uniform Strain) and Transverse Stress: In this option the effect of uniformstrain along the longitudinal direction of the FBG sensor and the transverse stress acting perpendicularly to the Sensor are considered;\
+        \n-Temperature: In this option only temperature effects are considered;\
+        \n-Long. Strain (Uni), Trans. Stress, Temperature: In this option the effect of uniformstrain along the longitudinal direction of the FBG sensor and the transverse stress acting perpendicularly and temperature effects are considered;\
         \n\nThe simulation resolution correspond to the light bandwidth discretization, i.e. amount of points that the reflected spectrum will be calculated.\
         \n\nFor more information check the user-manual: Section 5.2")
 
-
- 
         """--------------------------Tab FBG Signal Variation-----------------
     In here, it is presented all the functions in the Tab: FBG Signal Variation
     used to simulate the FBG response along multiple time increments
-    
+
     The sensor response is Wavelength shift: givin by the uniform longitudinal
     strain; and peak width variation givin by the non-uniform strain and transverse
-    stress contribution    
+    stress contribution
     """
 
     #Push Button: Add .txt files  with stress strain along fiber
@@ -776,29 +815,29 @@ class MyPlotMainWindow(QtMainWindowLoader):
         selectedfile = QtWidgets.QFileDialog.getOpenFileNames(self, "Select file(s) with stress and strain along the path (.txt).",'*.txt')[0]
         self.ui.listWidget_stressStrainFiles_TV.addItems(selectedfile)
         #self.ui.listWidget_stressStrainFiles.sortItems(0) #Sort the items
-        
+
     #Push Button: Sort the Input file
     def actionSortFiles(self):
         self.ui.listWidget_stressStrainFiles_TV.sortItems(0)
 
-    #Push Button: Remove loaded files  
+    #Push Button: Remove loaded files
     def actionRemoveFileStressStrainTR(self):
         SelectedItem=self.ui.listWidget_stressStrainFiles_TV.currentRow()
         self.ui.listWidget_stressStrainFiles_TV.takeItem(SelectedItem)
-        
-    #Push Button: Clear all files 
+
+    #Push Button: Clear all files
     def actionClearAllTR(self):
         self.ui.listWidget_stressStrainFiles_TV.clear()
 
 
 #-------------------Fibre Bragg Grating Array Configuration-------------------
-    #Push Button: Add FBG array position    
+    #Push Button: Add FBG array position
     def actionAddFBGPositionTR(self):
         #Empty List with FBG array position (TR- Time Response tab)
         self.FBGPositionTR=[]
         #Clear the EditBox
-        self.ui.textEdit_FBGPosition_TR.setText('')        
-        #Number of FBG per fibre      
+        self.ui.textEdit_FBGPosition_TR.setText('')
+        #Number of FBG per fibre
         numberFBGTR=self.ui.spinBox_NumberFBG_TR.value()
         for i in range(0,numberFBGTR):
             position, ok = QtWidgets.QInputDialog.getText(self, 'FBG:'+str(i+1)+' position','Insert the FBG:'+str(i+1)+' position. (mm or m from the begin of the line)')
@@ -819,13 +858,13 @@ class MyPlotMainWindow(QtMainWindowLoader):
                             QtWidgets.QMessageBox.warning(self, "Error",'The FBG position should be larger than the previous inserted.')
                             self.FBGPositionTR=[] #Clear the list with FBG array position
                             self.ui.textEdit_FBGPosition_TR.setText('') #Clear the EditBox
-                            return                        
+                            return
                     self.FBGPositionTR.append(position)#save in a local variable
                     #Write in the EditBox
                     self.ui.textEdit_FBGPosition_TR.insertPlainText('FBG '+str(i+1)+': '+str(position)+' (mm or m) \n')
             else:
                 return
-    #Push Button: Clear the FBG array position    
+    #Push Button: Clear the FBG array position
     def actionClearFBGPositionTR(self):
         #Clear the list with FBG array position
         self.FBGPositionTR=[]
@@ -833,15 +872,15 @@ class MyPlotMainWindow(QtMainWindowLoader):
         self.ui.textEdit_FBGPosition_TR.setText('')
 
     #Push Button: Auto- Add FBG original wavelength automatically based on the number of FBG sensors per fibre
-    def actionAutoTR(self):        
+    def actionAutoTR(self):
         #Empty List with FBG array original wavelength (nm)
         self.FBGOriginalWavelTR=[]
         #Clear the EditBox
-        self.ui.textEdit_FBGOriginalWavelength_TR.setText('')      
-        #Number of FBG per fibre      
+        self.ui.textEdit_FBGOriginalWavelength_TR.setText('')
+        #Number of FBG per fibre
         numberFBG=self.ui.spinBox_NumberFBG_TR.value()
         #minimum bandwidth wavelength
-        minwav=1500.00        
+        minwav=1500.00
         #mmaximum bandwidth wavelength
         maxwav=1600.00
         #Distance between FBG
@@ -850,14 +889,14 @@ class MyPlotMainWindow(QtMainWindowLoader):
             self.FBGOriginalWavelTR.append(minwav+FBGincrem*(i+1))
             #Write in the EditBox
             self.ui.textEdit_FBGOriginalWavelength_TR.insertPlainText('FBG '+str(i+1)+': '+str(minwav+FBGincrem*(i+1))+' (nm) \n')
-        
-    #Push Button: Add FBG original wavelength   
+
+    #Push Button: Add FBG original wavelength
     def actionAddFBGOriginalWavelengthTR(self):
         #Empty List with FBG array original wavelength (nm)
         self.FBGOriginalWavelTR=[]
         #Clear the EditBox
-        self.ui.textEdit_FBGOriginalWavelength_TR.setText('')        
-        #Number of FBG per fibre      
+        self.ui.textEdit_FBGOriginalWavelength_TR.setText('')
+        #Number of FBG per fibre
         numberFBGTR=self.ui.spinBox_NumberFBG_TR.value()
         for i in range(0,numberFBGTR):
             wavelength, ok = QtWidgets.QInputDialog.getText(self, 'FBG:'+str(i+1)+' original wavelength','Insert the FBG:'+str(i+1)+' original wavelength. (in nm)')
@@ -878,14 +917,14 @@ class MyPlotMainWindow(QtMainWindowLoader):
                             QtWidgets.QMessageBox.warning(self, "Error",'The FBG original wavelength should be larger than the previous inserted.')
                             self.FBGOriginalWavelTR=[] #Clear the list with FBG original wavelength position
                             self.ui.textEdit_FBGOriginalWavelength_TR.setText('') #Clear the EditBox
-                            return                        
+                            return
                     self.FBGOriginalWavelTR.append(wavelength)#save in a local variable
                     #Write in the EditBox
                     self.ui.textEdit_FBGOriginalWavelength_TR.insertPlainText('FBG '+str(i+1)+': '+str(wavelength)+' (nm) \n')
             else:
-                return   
-                
-    #Push Button: Clear the FBG Original Wavelength   
+                return
+
+    #Push Button: Clear the FBG Original Wavelength
     def actionClearFBGOriginalWavelengthTR(self):
         #Clear the list with FBG array position
         self.FBGOriginalWavelTR=[]
@@ -904,18 +943,18 @@ class MyPlotMainWindow(QtMainWindowLoader):
     #---------------------Generate the Spectrum Section-----------------------------
     """
     In this section, the input data will be check before generate the spectrum
-    """  
+    """
     #Push Button: Generate
     def actionTimeResponseGenerate(self):
         #Progress Bar
-        self.ui.progressBar_TR.setValue(0)     
-        
-        #Check if input files were inserted      
+        self.ui.progressBar_TR.setValue(0)
+
+        #Check if input files were inserted
         InputFileItemNumber=self.ui.listWidget_stressStrainFiles_TV.count()
         if InputFileItemNumber==0:
             self.ui.MessageBoard.insertPlainText('>>ERROR in (1)!!: Please insert the input file(s). \n')
             return
-      
+
         #Check if all the Optical Fibre Parameters were inserted and are float
         if self.ui.lineEdit_PhotoElasticParam_TR.text()=='' \
             or self.ui.lineEdit_InitialRefractiveIndex_TR.text()=='' \
@@ -926,7 +965,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
                 self.ui.MessageBoard.insertPlainText('>>ERROR in (2)!!: Please insert all optical fibre parameters. \n')
                 self.ui.progressBar_TR.setValue(0)
                 return
-                
+
         try:
             float(self.ui.lineEdit_PhotoElasticParam_TR.text())
             float(self.ui.lineEdit_InitialRefractiveIndex_TR.text())
@@ -936,11 +975,11 @@ class MyPlotMainWindow(QtMainWindowLoader):
             float(self.ui.lineEdit_PoissionsCoefficient_TR.text())
         except:
             self.ui.MessageBoard.insertPlainText('>>ERROR in (2)!!: Invalid format!! --Optical fibre parameters. \n')
-            self.ui.progressBar_TR.setValue(0)  
+            self.ui.progressBar_TR.setValue(0)
             return
 
         #Progress Bar
-        self.ui.progressBar_TR.setValue(10)      
+        self.ui.progressBar_TR.setValue(10)
 
 
         #Check if tolerance and FBG length were inserted
@@ -953,7 +992,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
             self.ui.MessageBoard.insertPlainText('>>ERROR in (3)!!: Invalid format!! --FBG length. \n')
             self.ui.progressBar_TR.setValue(0)
             return
-   
+
         if self.ui.lineEdit_tolerance_TR.text()=='':
             self.ui.MessageBoard.insertPlainText('>>ERROR in (3)!!: Please insert the tolerance. \n')
             return
@@ -975,10 +1014,10 @@ class MyPlotMainWindow(QtMainWindowLoader):
             self.ui.progressBar_TR.setValue(0)
             return
 
-        """ Now that the input data is corrected lets prepare to submit 
+        """ Now that the input data is corrected lets prepare to submit
         it to the TRSimulation Class"""
         self.ui.progressBar_TR.setValue(30)#Progress Bar
-        
+
         #Generate list with all the input files
         InputList=[]
         for i in range(0,InputFileItemNumber):
@@ -1001,15 +1040,15 @@ class MyPlotMainWindow(QtMainWindowLoader):
             self.InputUnitsTR=0
         else:
             self.InputUnitsTR=1
-        
+
         #Start the Time Response Simulation function
         self.TR=TRSimulation(InputList,NumberFBGTR,FBGlengthTR,ToleranceTR,SkipRowTR,self.FBGPositionTR,self.InputUnitsTR)
-        
-        self.ui.progressBar_TR.setValue(50)#Progress Bar 
-        
+
+        self.ui.progressBar_TR.setValue(50)#Progress Bar
+
         #Calculate The response
         self.TR.Calculate(self.FBGOriginalWavelTR,PhotoElasticParamTR,InitialRefractiveIndexTR,DirectionalRefractiveP11TR,DirectionalRefractiveP12TR,YoungsModuleTR,PoissionsCoefficientTR,self.FBGDirectionTR)
-        
+
         self.ui.progressBar_TR.setValue(100)#Progress Bar
         #Message
         self.ui.MessageBoard.insertPlainText(">> The FBG time response was successfully simulated. \n ")
@@ -1035,21 +1074,21 @@ class MyPlotMainWindow(QtMainWindowLoader):
                 savefile = open(saveFile,"w")
                 #Write the Head
                 savefile.write("Number of input files (increment number):  "+str(len(self.TR.InputList))+"\n") #file name
-                savefile.write("\n ------FBG array configuration------ \n")                    
-                savefile.write("Number of FBG sensors: "+str(self.TR.NumberFBG)+" \n")    
+                savefile.write("\n ------FBG array configuration------ \n")
+                savefile.write("Number of FBG sensors: "+str(self.TR.NumberFBG)+" \n")
                 savefile.write("FBG length (mm): "+str(self.TR.FBGLength)+" \n")
-                savefile.write("Tolerance (mm): "+str(self.TR.Tolerance)+" \n")                     
-                savefile.write("FBG position (mm): "+str(self.TR.FBGPosition)+" \n") 
-                savefile.write("FBG original wavelength (nm): "+str(self.TR.FBGOriginalWavel)+" \n \n")         
-   
+                savefile.write("Tolerance (mm): "+str(self.TR.Tolerance)+" \n")
+                savefile.write("FBG position (mm): "+str(self.TR.FBGPosition)+" \n")
+                savefile.write("FBG original wavelength (nm): "+str(self.TR.FBGOriginalWavel)+" \n \n")
+
                 #Write variables names
                 savefile.write("Increment number \t")
                 for c in np.arange(0,self.TR.NumberFBG):
                      savefile.write("FBG "+str(c+1)+"-Wavelength shift (nm)\t")
                 for c in np.arange(0,self.TR.NumberFBG):
-                     savefile.write("FBG "+str(c+1)+"-Peak width variation (nm)\t")                     
-                savefile.write("\n")                     
-                     
+                     savefile.write("FBG "+str(c+1)+"-Peak width variation (nm)\t")
+                savefile.write("\n")
+
                 #Write the Data
                 for b in np.arange(0,fsize): #Cycle each line
                     savefile.write('%d \t' % (int(self.TR.FBGTimeResponse['FBG1']['Increment'][b]))) #write the increment number
@@ -1057,10 +1096,10 @@ class MyPlotMainWindow(QtMainWindowLoader):
                     for c in np.arange(0,self.TR.NumberFBG):
                         savefile.write('%5f \t' % (self.TR.FBGTimeResponse['FBG'+str(c+1)]['WaveShift'][b]))
                     for c in np.arange(0,self.TR.NumberFBG):
-                        savefile.write('%5f \t' % (self.TR.FBGTimeResponse['FBG'+str(c+1)]['WaveWidth'][b])) 
-                    savefile.write("\n") 
+                        savefile.write('%5f \t' % (self.TR.FBGTimeResponse['FBG'+str(c+1)]['WaveWidth'][b]))
+                    savefile.write("\n")
                #close file
-                savefile.close()           
+                savefile.close()
         else:
             self.ui.MessageBoard.insertPlainText(">> Error!! Please simulated the FBG spectrum before saving as file. \n ")
             return
@@ -1083,7 +1122,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
 -------------------------------------------------------------------------------
 """
 
-"""----------------------------Class to plot: OSA tab------------------------
+"""----------------------------Class to plot: TR tab------------------------
 """
 import GUI.PlotWindow_TR
 class PlotWindowTR(QtDialogLoader):
@@ -1097,14 +1136,14 @@ class PlotWindowTR(QtDialogLoader):
         self.ui_module = GUI.PlotWindow_TR
         try: self.ui = self.ui_module.Ui_Form()  #enable autocomplete
         except: pass
-        QtDialogLoader.__init__(self, self.ui_module, parent, modal)        
+        QtDialogLoader.__init__(self, self.ui_module, parent, modal)
 
         #Start the Canvas for Time Response Plot
         self.TRplot = TRCanvas()
 
         self.ui.gridLayout_TR_Plot.addWidget(self.TRplot)#Insert The canvas
- 
-        #Set the Axes names        
+
+        #Set the Axes names
         self.TRplot.axes0.set_xlabel('Increments ',fontsize=10)
         self.TRplot.axes0.set_ylabel('Wavelength shift (nm)',fontsize=14)
         self.TRplot.axes1.set_xlabel('Increments ',fontsize=10)
@@ -1112,7 +1151,7 @@ class PlotWindowTR(QtDialogLoader):
 
         #Set maxIncrements
         self.ui.doubleSpinBox_MaxIncrement.setValue(len(self.TR.FBGTimeResponse['FBG1']['Increment'])-1)
-        
+
         #Set max and Min Wavelength shift and peak width
         #Calculate maximum
         minwav=0.0
@@ -1126,9 +1165,9 @@ class PlotWindowTR(QtDialogLoader):
             tempmaxwid=np.max(self.TR.FBGTimeResponse['FBG'+str(b+1)]['WaveWidth'])
             if tempminwav<minwav:minwav=tempminwav
             if tempmaxwav>maxwav:maxwav=tempmaxwav
-            if tempminwid<minwid:minwid=tempminwid            
+            if tempminwid<minwid:minwid=tempminwid
             if tempmaxwid>maxwid:maxwid=tempmaxwid
-            
+
         self.ui.spinBox_WSMin.setValue(minwav)
         self.ui.spinBox_WSMax.setValue(maxwav)
         self.ui.spinBox_WDMin.setValue(minwid)
@@ -1139,9 +1178,9 @@ class PlotWindowTR(QtDialogLoader):
         self.ui.doubleSpinBox_MaxIncrement.valueChanged.connect(self.actionUpdatePlot)
         self.ui.spinBox_MinIncrement.valueChanged.connect(self.actionUpdatePlot)
         self.ui.spinBox_WSMin.valueChanged.connect(self.actionUpdatePlot)
-        self.ui.spinBox_WSMax.valueChanged.connect(self.actionUpdatePlot)        
+        self.ui.spinBox_WSMax.valueChanged.connect(self.actionUpdatePlot)
         self.ui.spinBox_WDMin.valueChanged.connect(self.actionUpdatePlot)
-        self.ui.spinBox_WDMax.valueChanged.connect(self.actionUpdatePlot)        
+        self.ui.spinBox_WDMax.valueChanged.connect(self.actionUpdatePlot)
         self.ui.checkBox_legend.clicked.connect(self.actionUpdatePlot)
         self.ui.checkBox_Grid.clicked.connect(self.actionUpdatePlot)
         self.ui.doubleSpinBox_LineWidth.valueChanged.connect(self.actionUpdatePlot)
@@ -1157,26 +1196,26 @@ class PlotWindowTR(QtDialogLoader):
             #plot Wavelength Shift
             self.TRplot.axes0.plot(self.TR.FBGTimeResponse['FBG'+str(b+1)]['Increment'],self.TR.FBGTimeResponse['FBG'+str(b+1)]['WaveShift'],linewidth=self.linewidth,label='FBG'+str(b+1))
             #plot peak width variation
-            self.TRplot.axes1.plot(self.TR.FBGTimeResponse['FBG'+str(b+1)]['Increment'],self.TR.FBGTimeResponse['FBG'+str(b+1)]['WaveWidth'],linewidth=self.linewidth)            
+            self.TRplot.axes1.plot(self.TR.FBGTimeResponse['FBG'+str(b+1)]['Increment'],self.TR.FBGTimeResponse['FBG'+str(b+1)]['WaveWidth'],linewidth=self.linewidth)
 
     def actionUpdatePlot(self):
         self.ui.gridLayout_TR_Plot.removeWidget(self.TRplot)
         self.TRplot = TRCanvas()
-        self.ui.gridLayout_TR_Plot.addWidget(self.TRplot)        
+        self.ui.gridLayout_TR_Plot.addWidget(self.TRplot)
         #self.TRplot.axes0.hold(True)    #---BEN_EDIT, check later
         #self.TRplot.axes1.hold(True)    #---BEN_EDIT, check later
 
-       #Set the Axes names        
+       #Set the Axes names
         self.TRplot.axes0.set_xlabel('Increments ',fontsize=10)
         self.TRplot.axes0.set_ylabel('Wavelength shift (nm)',fontsize=14)
         self.TRplot.axes1.set_xlabel('Increments ',fontsize=10)
-        self.TRplot.axes1.set_ylabel('Peak width variation (nm)',fontsize=14)        
-        
-      
+        self.TRplot.axes1.set_ylabel('Peak width variation (nm)',fontsize=14)
+
+
         #Set xlimits (Increments)
         self.TRplot.axes0.set_xlim([self.ui.spinBox_MinIncrement.value(), self.ui.doubleSpinBox_MaxIncrement.value()])
-        self.TRplot.axes1.set_xlim([self.ui.spinBox_MinIncrement.value(), self.ui.doubleSpinBox_MaxIncrement.value()])        
-        #Set ylimits        
+        self.TRplot.axes1.set_xlim([self.ui.spinBox_MinIncrement.value(), self.ui.doubleSpinBox_MaxIncrement.value()])
+        #Set ylimits
         self.TRplot.axes0.set_ylim([self.ui.spinBox_WSMin.value(), self.ui.spinBox_WSMax.value()])
         self.TRplot.axes1.set_ylim([self.ui.spinBox_WDMin.value(), self.ui.spinBox_WDMax.value()])
         #Set LineWidth
@@ -1192,7 +1231,7 @@ class PlotWindowTR(QtDialogLoader):
          #Grid
         if self.ui.checkBox_Grid.isChecked():
             self.TRplot.axes0.grid()
-            self.TRplot.axes1.grid() 
+            self.TRplot.axes1.grid()
 
     def actionSavePicture(self):
         savePictureFile = str(QtWidgets.QFileDialog.getSaveFileName(self, "Save FBG Spectrum Plot",'*.png'))[0]
@@ -1214,12 +1253,12 @@ class PlotWindowOSA(QtDialogLoader):
         self.ui_module = GUI.PlotWindow_OSA
         try: self.ui = self.ui_module.Ui_Form()  #enable autocomplete
         except: pass
-        QtDialogLoader.__init__(self, self.ui_module, parent, modal)        
+        QtDialogLoader.__init__(self, self.ui_module, parent, modal)
 
         #Start the Canvas for OSA Plot
         self.osaplot = OSACanvas()
         self.ui.gridLayout_OSA_Plot.addWidget(self.osaplot)#Insert The canvas
-        #Set the Axes names        
+        #Set the Axes names
         self.osaplot.axes.set_xlabel('Wavelength (nm)',fontsize=14)
         self.osaplot.axes.set_ylabel('Reflectivity (R)',fontsize=14)
         #Connect widget signals to actionUpdatePlot
@@ -1235,7 +1274,7 @@ class PlotWindowOSA(QtDialogLoader):
         #Plot the Spectrum
         #self.osaplot.axes.hold(True)  #---BEN_EDIT, check later
         self.Plot()
-        
+
         #FBG Output Table
         self.ui.textEdit_FBGoutput.insertPlainText('FBG number | Original Wavelength | Wavelength shift | Width variation \n')
         for b in np.arange(0,self.Osa.NumberFBG):
@@ -1243,31 +1282,39 @@ class PlotWindowOSA(QtDialogLoader):
 
     def Plot(self):
         #Plot the Undeformed shape
-        try:self.osaplot.axes.plot(self.Osa.OReflect['wavelength'],self.Osa.OReflect['reflec'],color=self.LineColorUndeformed,linewidth=self.linewidth, label="Undeformed FBG Spectrum") 
+        try:self.osaplot.axes.plot(self.Osa.OReflect['wavelength'],self.Osa.OReflect['reflec'],color=self.LineColorUndeformed,linewidth=self.linewidth, label="Undeformed FBG Spectrum")
         except:pass
         #Plot the Uniform Strain contribution
-        try:self.osaplot.axes.plot(self.Osa.USReflect['wavelength'],self.Osa.USReflect['reflec'],color=self.LineColorSimulated,linewidth=self.linewidth, label="Longitudinal Strain (Uniform Strain)") 
+        try:self.osaplot.axes.plot(self.Osa.USReflect['wavelength'],self.Osa.USReflect['reflec'],color=self.LineColorSimulated,linewidth=self.linewidth, label="Longitudinal Strain (Uniform Strain)")
         except:pass
         #Plot the Non-Uniform Strain contribution
-        try:self.osaplot.axes.plot(self.Osa.NUSReflect['wavelength'],self.Osa.NUSReflect['reflec'],color=self.LineColorSimulated,linewidth=self.linewidth, label="Longitudinal Strain (Non-Uniform Strain)") 
+        try:self.osaplot.axes.plot(self.Osa.NUSReflect['wavelength'],self.Osa.NUSReflect['reflec'],color=self.LineColorSimulated,linewidth=self.linewidth, label="Longitudinal Strain (Non-Uniform Strain)")
         except:pass
         #Plot the trasnverse Stress Contribution
         try:
             self.osaplot.axes.plot(self.Osa.TSYReflect['wavelength'],self.Osa.TSYReflect['reflec'],color="red",linewidth=self.linewidth, label="Longitudinal Strain and Transverse Stress (Y Wave)")
             self.osaplot.axes.plot(self.Osa.TSZReflect['wavelength'],self.Osa.TSZReflect['reflec'],color="blue",linewidth=self.linewidth, label="Longitudinal Strain and Transverse Stress (Z Wave)")
-        except:pass    
-    
+        except:pass
+        #Plot the Temperature contribution
+        try:self.osaplot.axes.plot(self.Osa.TReflect['wavelength'],self.Osa.TReflect['reflec'],color=self.LineColorSimulated,linewidth=self.linewidth, label="Temperature Contribution")
+        except:pass
+        #Plot the trasnverse Stress Contribution and Temperature
+        try:
+            self.osaplot.axes.plot(self.Osa.TSTYReflect['wavelength'],self.Osa.TSTYReflect['reflec'],color="red",linewidth=self.linewidth, label="Longitudinal Strain, Transverse Stress, and Temperature (Y Wave)")
+            self.osaplot.axes.plot(self.Osa.TSTZReflect['wavelength'],self.Osa.TSTZReflect['reflec'],color="blue",linewidth=self.linewidth, label="Longitudinal Strain, Transverse Stress, and Temperature (Z Wave)")
+        except:pass
+
     def actionUpdatePlot(self):
         self.ui.gridLayout_OSA_Plot.removeWidget(self.osaplot)
         self.osaplot = OSACanvas()
-        self.ui.gridLayout_OSA_Plot.addWidget(self.osaplot)        
+        self.ui.gridLayout_OSA_Plot.addWidget(self.osaplot)
         #self.osaplot.axes.hold(True)  #---BEN_EDIT, check later
-        #Set the Axes names        
+        #Set the Axes names
         self.osaplot.axes.set_xlabel('Wavelength (nm)',fontsize=14)
-        self.osaplot.axes.set_ylabel('Reflectivity (R)',fontsize=14)        
+        self.osaplot.axes.set_ylabel('Reflectivity (R)',fontsize=14)
         #Set xlimits
         self.osaplot.axes.set_xlim([self.ui.spinBox_XlimMin.value(), self.ui.doubleSpinBox_XlimMax.value()])
-        #Set ylimits        
+        #Set ylimits
         self.osaplot.axes.set_ylim([self.ui.spinBox_YlimMin.value(), self.ui.doubleSpinBox_YlimMax.value()])
         #Set LineWidth
         self.linewidth=self.ui.doubleSpinBox_LineWidth.value()
@@ -1282,7 +1329,7 @@ class PlotWindowOSA(QtDialogLoader):
             self.osaplot.axes.legend(fontsize=10, loc="best")
          #Grid
         if self.ui.checkBox_Grid.isChecked():
-            self.osaplot.axes.grid()         
+            self.osaplot.axes.grid()
 
     def actionSavePicture(self):
         savePictureFile = str(QtWidgets.QFileDialog.getSaveFileName(self, "Save FBG Spectrum Plot",'*.png'))[0]
@@ -1302,7 +1349,7 @@ class TRCanvas(Canvas):
     """
     MatplotlibWidget inherits PyQt5.QtWidgets.QWidget
     and matplotlib.backend_bases.FigureCanvasBase
-    -------    
+    -------
     parent (None): parent widget
     title (''): figure title
     xlabel (''): X-axis label
@@ -1335,7 +1382,7 @@ class TRCanvas(Canvas):
         #self.axes1.set_title('Peak width variation')
         self.axes1.set_xlabel(xlabel)
         self.axes1.set_ylabel(ylabel)
-        
+
         if xscale is not None:
             self.axes0.set_xscale(xscale)
             self.axes1.set_xscale(xscale)
@@ -1350,7 +1397,7 @@ class TRCanvas(Canvas):
             self.axes1.set_ylim(*ylim)
         #self.axes0.hold(hold)    #---BEN_EDIT, check later
         #self.axes1.hold(hold)    #---BEN_EDIT, check later
-        
+
         Canvas.__init__(self, self.figure)
         self.setParent(parent)
 
@@ -1384,4 +1431,3 @@ class OSACanvas(Canvas):
 
         Canvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
         Canvas.updateGeometry(self)
-
