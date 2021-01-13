@@ -6,3 +6,7 @@ Fiber Bragg Grating (FBG) simulation tool for Finite Element Method (FEM) models
 * Temperature
 
 ![FBG-SimPlus Cover](python/GUI/resources/header.png)
+
+### Quick Start Guide
+
+To start FBG-SimPlus, execute the file "python/run.py". For further information on program usage, refer to the file "documentation.pdf" and the tutorial subdirectoy.
