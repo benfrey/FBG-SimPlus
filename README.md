@@ -29,4 +29,3 @@ Current known issues:
 ### Copyright 
 
 Copyright (C) Ben Frey
-Last revision: 01-13-2021
