@@ -22,13 +22,11 @@ To start FBG-SimPlus, execute the file "python/run.py". For further information 
 Please email Ben Frey (freynben@gmail.com) with questions or with run-time issues.
 
 Current known issues:
-1.) Instability when plotting spectral responses, sometimes leads to program crash.
-2.) Inability to exit from program on macOS, requires force quit.
-3.) Saving plot picture inconsistent functionality.
+1. Instability when plotting spectral responses, sometimes leads to program crash.
+2. Inability to exit from program on macOS, requires force quit.
+3. Saving plot picture inconsistent functionality.
 
 ### Copyright 
 
 Copyright (C) Ben Frey
-Author: Ben Frey
-Email Ben: freynben@gmail.com
 Last revision: 01-13-2021
