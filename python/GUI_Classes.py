@@ -378,6 +378,7 @@ class MyPlotMainWindow(QtMainWindowLoader):
         PoissonsCoefficient=float(self.ui.lineEdit_PoissionsCoefficient.text())
         MinBandWidth=float(self.ui.lineEdit_MinBandWidth.text())
         MaxBandWidth=float(self.ui.lineEdit_MaxBandWidth.text())
+        self.FiberThermalExpansionCoefficient=float(self.ui.lineEdit_FiberThermalExpansion.text())
         ThermoOptic=float(self.ui.lineEdit_ThermoOptic.text())
         AmbientTemperature=float(self.ui.lineEdit_AmbientTemperature.text())
         SimulationResolution=float(self.ui.lineEdit_SimulationResolution.text())
@@ -417,11 +418,18 @@ class MyPlotMainWindow(QtMainWindowLoader):
              self.HostThermalExpansionCoefficient = 0
              self.EmulateTemperature = -1.0
              
+        #--- EMBEDDED IMPLEMENTATION ---
+        if self.ui.checkBox_TypeEmulateTemperature.isChecked() == True and self.ui.checkBox_Embedded.isChecked() == False:
+             self.HostThermalExpansionCoefficient = self.FiberThermalExpansionCoefficient
+             
         #Generate the FBG signal
-        self.Osa.DeformedFBG(SimulationResolution,MinBandWidth,MaxBandWidth,AmbientTemperature,InitialRefractiveIndex,MeanChangeRefractiveIndex,FringeVisibility,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissonsCoefficient,ThermoOptic,self.StrainType,self.StressType,self.EmulateTemperature,self.HostThermalExpansionCoefficient,self.FBGOriginalWavel)
+        #print(self.HostThermalExpansionCoefficient)
+        #print(self.FiberThermalExpansionCoefficient)
+        #print(self.EmulateTemperature)
+        self.Osa.DeformedFBG(SimulationResolution,MinBandWidth,MaxBandWidth,AmbientTemperature,InitialRefractiveIndex,MeanChangeRefractiveIndex,FringeVisibility,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissonsCoefficient,ThermoOptic,self.StrainType,self.StressType,self.EmulateTemperature,self.FiberThermalExpansionCoefficient,self.HostThermalExpansionCoefficient,self.FBGOriginalWavel)
 
         #Generates the summarized Data
-        self.Osa.FBGOutputSum(AmbientTemperature,InitialRefractiveIndex,FringeVisibility,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissonsCoefficient,ThermoOptic,self.StrainType,self.StressType,self.EmulateTemperature,self.HostThermalExpansionCoefficient,self.FBGOriginalWavel)
+        self.Osa.FBGOutputSum(AmbientTemperature,InitialRefractiveIndex,FringeVisibility,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissonsCoefficient,ThermoOptic,self.StrainType,self.StressType,self.EmulateTemperature,self.FiberThermalExpansionCoefficient,self.HostThermalExpansionCoefficient,self.FBGOriginalWavel)
 
         self.ui.progressBar.setValue(100) #Progress Bar
         #Message

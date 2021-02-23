@@ -220,7 +220,7 @@ class OSASimulation(object):
         print(self.OReflect['wavelength'][0:15])
         print(self.OReflect['reflec'][0:15])
 
-    def DeformedFBG(self,SimulationResolution,MinBandWidth,MaxBandWidth,AmbientTemperature,InitialRefractiveIndex,MeanChangeRefractiveIndex,FringeVisibility,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissonsCoefficient,ThermoOptic,StrainType,StressType,EmulateTemperature,HostThermalExpansionCoefficient,FBGOriginalWavel):
+    def DeformedFBG(self,SimulationResolution,MinBandWidth,MaxBandWidth,AmbientTemperature,InitialRefractiveIndex,MeanChangeRefractiveIndex,FringeVisibility,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissonsCoefficient,ThermoOptic,StrainType,StressType,EmulateTemperature,FiberThermalExpansionCoefficient,HostThermalExpansionCoefficient,FBGOriginalWavel):
         """
 
         Parameters
@@ -256,6 +256,8 @@ class OSASimulation(object):
             0 for none, 1 for included
         EmulateTemperature : float (Mandatory)
             Theoretical emulated temperature of fiber
+        FiberThermalExpansionCoefficient : float (Mandatory)
+            Thermal expansion coefficient of fiber material
         HostThermalExpansionCoefficient : float (Mandatory)
             Thermal expansion coefficient of host material
         FBGOriginalWavel: array (Mandatory)
@@ -280,6 +282,7 @@ class OSASimulation(object):
         self.PoissonsCoefficient = PoissonsCoefficient
         self.ThermoOptic = ThermoOptic
         self.EmulateTemperature = EmulateTemperature
+        self.FiberThermalExpansionCoefficient = FiberThermalExpansionCoefficient
         self.HostThermalExpansionCoefficient = HostThermalExpansionCoefficient
         self.FBGOriginalWavel = FBGOriginalWavel
 
@@ -289,7 +292,9 @@ class OSASimulation(object):
         #Determine if we need to emulate a theoretical temperature value
         if self.EmulateTemperature != -1.0:
             for i in np.arange(0,self.NumberFBG):
-                for j in self.FBGArray['FBG'+str(i+1)]['T']: j = self.EmulateTemperature
+                for j in range(len(self.FBGArray['FBG'+str(i+1)]['T'])):
+                    self.FBGArray['FBG'+str(i+1)]['T'][j] = self.EmulateTemperature
+                print(self.FBGArray['FBG'+str(i+1)]['T'][0:5])
             
         #Array with the original FBG periods
         self.APFBG=[]
@@ -329,14 +334,15 @@ class OSASimulation(object):
                 #--- Case of "uniform longitudinal strain" ---
                 StrainMeanFBG=np.mean(self.FBGArray['FBG'+str(i+1)]['LE11']) #Strain average over FBG region
                 TempMeanFBG=np.mean(self.FBGArray['FBG'+str(i+1)]['T']) #Temperature average over FBG region
-                TempnewWavelength=self.FBGOriginalWavel[i]*(1+(1-self.PhotoElasticParam)*StrainMeanFBG+((1-self.PhotoElasticParam)*self.HostThermalExpansionCoefficient+self.ThermoOptic)*(TempMeanFBG-self.AmbientTemperature)) #weavelength at uniform strain and temperature
+                TempnewWavelength=self.FBGOriginalWavel[i]*(1+(1-self.PhotoElasticParam)*StrainMeanFBG+(self.FiberThermalExpansionCoefficient+(1-self.PhotoElasticParam)*(self.HostThermalExpansionCoefficient-self.FiberThermalExpansionCoefficient)+self.ThermoOptic)*(TempMeanFBG-self.AmbientTemperature)) #weavelength at uniform strain and temperature
                 for j in np.arange(0,M):
                     FBGperiod.append(TempnewWavelength/(2.0*self.InitialRefractiveIndex)) # Grating period 
 
             else:
                 #--- Case of "non-uniform longitudinal strain" build the grating period changed ---
                 for j in np.arange(0,M):
-                    TempnewWavelength = self.FBGOriginalWavel[i]*(1+(1-self.PhotoElasticParam)*self.FBGArray['FBG'+str(i+1)]['LE11'][j]+((1-self.PhotoElasticParam)*self.HostThermalExpansionCoefficient+self.ThermoOptic)*(self.FBGArray['FBG'+str(i+1)]['T'][j]-self.AmbientTemperature)) #weavelength at nonuniform strain and temperature
+                    TempnewWavelength = self.FBGOriginalWavel[i]*(1+(1-self.PhotoElasticParam)*self.FBGArray['FBG'+str(i+1)]['LE11'][j]+(self.FiberThermalExpansionCoefficient+(1-self.PhotoElasticParam)*(self.HostThermalExpansionCoefficient-self.FiberThermalExpansionCoefficient)+self.ThermoOptic)*(self.FBGArray['FBG'+str(i+1)]['T'][j]-self.AmbientTemperature)) #weavelength at nonuniform strain and temperature
+                    #print(self.FBGArray['FBG'+str(i+1)]['T'][0]-self.AmbientTemperature)
                     FBGperiod.append(TempnewWavelength/(2.0*self.InitialRefractiveIndex)) # Grating period 
 
             #--- STRESS ---
@@ -427,7 +433,7 @@ class OSASimulation(object):
         #print(self.DReflect['wavelength'][0:15])
         #print(self.YReflect['reflec'][0:15])
 
-    def FBGOutputSum(self,AmbientTemperature,InitialRefractiveIndex,FringeVisibility,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissonsCoefficient,ThermoOptic,StrainType,StressType,EmulateTemperature,HostThermalExpansionCoefficient,FBGOriginalWavel):
+    def FBGOutputSum(self,AmbientTemperature,InitialRefractiveIndex,FringeVisibility,DirectionalRefractiveP11,DirectionalRefractiveP12,YoungsModule,PoissonsCoefficient,ThermoOptic,StrainType,StressType,EmulateTemperature,FiberThermalExpansionCoefficient,HostThermalExpansionCoefficient,FBGOriginalWavel):
         """
         Function to create a table with the wavelength shift and the peak spliting per sensor
 
@@ -466,6 +472,8 @@ class OSASimulation(object):
             0 for none, 1 for included
         EmulateTemperature : float (Mandatory)
             Theoretical emulated temperature of fiber
+        FiberThermalExpansionCoefficient : float (Mandatory)
+            Thermal expansion coefficient of core and cladding material
         HostThermalExpansionCoefficient : float (Mandatory)
             Thermal expansion coefficient of host material
         FBGOriginalWavel: array (Mandatory)
@@ -490,22 +498,11 @@ class OSASimulation(object):
         self.PoissonsCoefficient = PoissonsCoefficient
         self.ThermoOptic = ThermoOptic
         self.EmulateTemperature = EmulateTemperature
+        self.FiberThermalExpansionCoefficient = FiberThermalExpansionCoefficient
         self.HostThermalExpansionCoefficient = HostThermalExpansionCoefficient
         self.FBGOriginalWavel = FBGOriginalWavel
         self.FBGDirection = 0
         
-        """
-        self.FBGOriginalWavel=FBGOriginalWavel
-        self.InitialRefractiveIndex=InitialRefractiveIndex
-        self.FBGDirection=FBGDirection
-        self.DirectionalRefractiveP11=DirectionalRefractiveP11
-        self.DirectionalRefractiveP12=DirectionalRefractiveP12
-        self.YoungsModule=YoungsModule/10**6 #Change to MPA
-        self.PoissionsCoefficient=PoissionsCoefficient
-        self.ThermalExpansion=ThermalExpansion
-        self.ThermoOptic=ThermoOptic
-        self.To=InitialTemperature
-        """
         #Calculate photoelastic coef from directional coefs.
         self.PhotoElasticParam = (self.InitialRefractiveIndex**2/2)*(self.DirectionalRefractiveP12-self.PoissonsCoefficient*(self.DirectionalRefractiveP11-self.DirectionalRefractiveP12))
 
@@ -569,7 +566,7 @@ class OSASimulation(object):
                 #--- Case of "uniform longitudinal strain" 
                 
                 #--------Wavelength Shift Calculation----------------------
-                WavlShift=self.FBGOriginalWavel[b]*((1-self.PhotoElasticParam)*FBGmaxmin['FBG'+str(b+1)][AVStrainDirection]+((1-self.PhotoElasticParam)*self.HostThermalExpansionCoefficient+self.ThermoOptic)*(FBGmaxmin['FBG'+str(b+1)][AVTemperature]-self.AmbientTemperature)) #weavelength at uniform strain and temperature
+                WavlShift=self.FBGOriginalWavel[b]*((1-self.PhotoElasticParam)*FBGmaxmin['FBG'+str(b+1)][AVStrainDirection]+(self.FiberThermalExpansionCoefficient+(1-self.PhotoElasticParam)*(self.HostThermalExpansionCoefficient-self.FiberThermalExpansionCoefficient)+self.ThermoOptic)*(FBGmaxmin['FBG'+str(b+1)][AVTemperature]-self.AmbientTemperature)) #weavelength at uniform strain and temperature
                 self.FBGOutSum['FBG'+str(b+1)]['WaveShift'].append(WavlShift)   
                 
                 self.graperiodmax = self.graperiodmin = self.FBGOriginalWavel[b]/(2*self.InitialRefractiveIndex)*(1+(1-self.PhotoElasticParam)*FBGmaxmin['FBG'+str(b+1)][AVStrainDirection]+(self.ThermoOptic)*(FBGmaxmin['FBG'+str(b+1)][AVTemperature]-self.AmbientTemperature))
@@ -579,7 +576,7 @@ class OSASimulation(object):
                 #--- Case of "non-uniform longitudinal strain"---
          
                 #--------Wavelength Shift Calculation----------------------
-                WavlShift=self.FBGOriginalWavel[b]*((1-self.PhotoElasticParam)*FBGmaxmin['FBG'+str(b+1)][AVStrainDirection]+((1-self.PhotoElasticParam)*self.HostThermalExpansionCoefficient+self.ThermoOptic)*(FBGmaxmin['FBG'+str(b+1)][AVTemperature]-self.AmbientTemperature)) #weavelength at uniform strain and temperature
+                WavlShift=self.FBGOriginalWavel[b]*((1-self.PhotoElasticParam)*FBGmaxmin['FBG'+str(b+1)][AVStrainDirection]+(self.FiberThermalExpansionCoefficient+(1-self.PhotoElasticParam)*(self.HostThermalExpansionCoefficient-self.FiberThermalExpansionCoefficient)+self.ThermoOptic)*(FBGmaxmin['FBG'+str(b+1)][AVTemperature]-self.AmbientTemperature)) #weavelength at uniform strain and temperature
                 self.FBGOutSum['FBG'+str(b+1)]['WaveShift'].append(WavlShift)   
                 
                 #--- Variation of the peak width: Non-uniform strain contribution and temperature ----

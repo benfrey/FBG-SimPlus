@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1440</width>
-    <height>860</height>
+    <height>898</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -364,58 +364,74 @@
           </item>
           <item row="3" column="1">
            <layout class="QGridLayout" name="gridLayout_22">
-            <item row="3" column="2" colspan="2">
-             <widget class="QLineEdit" name="lineEdit_DirectionalRefractiveP11">
+            <item row="3" column="0" rowspan="2">
+             <widget class="QLabel" name="label_13">
               <property name="enabled">
                <bool>false</bool>
-              </property>
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
               </property>
               <property name="text">
-               <string>0.121</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pockels' Elasto-optic Coefficients&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
-             </widget>
-            </item>
-            <item row="6" column="1" colspan="3">
-             <widget class="QLineEdit" name="lineEdit_PoissionsCoefficient">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>0.17</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="label_15">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="mouseTracking">
+              <property name="wordWrap">
                <bool>true</bool>
               </property>
+             </widget>
+            </item>
+            <item row="1" column="1" colspan="3">
+             <widget class="QLineEdit" name="lineEdit_MeanChangeRefractiveIndex">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;p&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>4.5E-4</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_16">
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_17">
               <property name="enabled">
                <bool>false</bool>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Young's Modulus [Pa]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Poisson’s Coefficient&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2" colspan="2">
+             <widget class="QLineEdit" name="lineEdit_DirectionalRefractiveP12">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>0.270</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1" colspan="3">
+             <widget class="QLineEdit" name="lineEdit_YoungsModule">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>75E9</string>
               </property>
              </widget>
             </item>
@@ -448,63 +464,31 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="1" colspan="3">
-             <widget class="QLineEdit" name="lineEdit_YoungsModule">
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_16">
               <property name="enabled">
                <bool>false</bool>
               </property>
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
               <property name="text">
-               <string>75E9</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Young's Modulus [Pa]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="2" colspan="2">
-             <widget class="QLineEdit" name="lineEdit_DirectionalRefractiveP12">
+            <item row="4" column="1">
+             <widget class="QLabel" name="label_15">
               <property name="enabled">
                <bool>false</bool>
               </property>
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>0.270</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" rowspan="2">
-             <widget class="QLabel" name="label_13">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pockels' Elasto-optic Coefficients&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="wordWrap">
+              <property name="mouseTracking">
                <bool>true</bool>
               </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_17">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Poisson’s Coefficient&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;p&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" colspan="3">
-             <widget class="QLineEdit" name="lineEdit_MeanChangeRefractiveIndex">
+            <item row="3" column="2" colspan="2">
+             <widget class="QLineEdit" name="lineEdit_DirectionalRefractiveP11">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -515,7 +499,23 @@
                </font>
               </property>
               <property name="text">
-               <string>4.5E-4</string>
+               <string>0.121</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1" colspan="3">
+             <widget class="QLineEdit" name="lineEdit_PoissionsCoefficient">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>0.17</string>
               </property>
              </widget>
             </item>
@@ -574,7 +574,7 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="0">
+            <item row="8" column="0">
              <widget class="QLabel" name="label_48">
               <property name="enabled">
                <bool>false</bool>
@@ -584,7 +584,7 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="1" colspan="3">
+            <item row="8" column="1" colspan="3">
              <widget class="QLineEdit" name="lineEdit_ThermoOptic">
               <property name="enabled">
                <bool>false</bool>
@@ -597,6 +597,32 @@
               </property>
               <property name="text">
                <string>8.3E-6</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fiber Thermal Expansion Coefficient [K&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1" colspan="3">
+             <widget class="QLineEdit" name="lineEdit_FiberThermalExpansion">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>0.55E-6</string>
               </property>
              </widget>
             </item>
@@ -666,25 +692,6 @@
               </property>
               <property name="text">
                <string>Uniform</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QRadioButton" name="radioButton_TypeNonUniform">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Uniform and Non-Uniform</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -766,7 +773,7 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
+            <item row="8" column="1">
              <widget class="QLineEdit" name="lineEdit_HostThermalExpansion">
               <property name="enabled">
                <bool>false</bool>
@@ -782,7 +789,7 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="0">
+            <item row="8" column="0">
              <widget class="QLabel" name="label_49">
               <property name="enabled">
                <bool>false</bool>
@@ -792,6 +799,35 @@
               </property>
               <property name="wordWrap">
                <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QRadioButton" name="radioButton_TypeNonUniform">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Uniform and Non-Uniform</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QCheckBox" name="checkBox_Embedded">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Embedded Implementation</string>
               </property>
              </widget>
             </item>
@@ -1765,30 +1801,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_TypeEmulateTemperature</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_49</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>605</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>602</x>
-     <y>285</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_TypeEmulateTemperature</sender>
+   <sender>checkBox_Embedded</sender>
    <signal>toggled(bool)</signal>
    <receiver>lineEdit_HostThermalExpansion</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>605</x>
-     <y>254</y>
+     <x>690</x>
+     <y>280</y>
     </hint>
     <hint type="destinationlabel">
      <x>798</x>
@@ -2081,6 +2101,70 @@
     <hint type="destinationlabel">
      <x>-1</x>
      <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_AdvancedModeSelectionOSA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_3</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>294</x>
+     <y>508</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>200</x>
+     <y>737</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_AdvancedModeSelectionOSA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_FiberThermalExpansion</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>294</x>
+     <y>508</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>453</x>
+     <y>730</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Embedded</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_49</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>690</x>
+     <y>280</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>686</x>
+     <y>312</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_TypeEmulateTemperature</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_Embedded</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>690</x>
+     <y>253</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>690</x>
+     <y>280</y>
     </hint>
    </hints>
   </connection>

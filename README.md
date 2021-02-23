@@ -17,6 +17,10 @@ To start FBG-SimPlus, execute the file "python/run.py". For further information 
 * Required Modules: pyqt (Ver. 5), scipy, matplotlib, sympy, six, numpy
 * Developed on macOS, supports Windows 10 and Linux
 
+### Acknowledgements
+
+B. Frey acknowledges support from the National Science Foundation and Department of Defense under Grants PHY-1659598 and PHY-1950744. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author and do not necessarily reflect the views of the National Science Foundation or Department of Defense.
+
 ### Considerations
 
 Please email Ben Frey (freynben@gmail.com) with questions or with run-time issues.
@@ -26,6 +30,6 @@ Current known issues:
 2. Inability to exit from program on macOS, requires force quit.
 3. Saving plot picture inconsistent functionality.
 
-### Copyright 
+### Copyright
 
-Copyright (C) Ben Frey
+© 2020-2021 Benjamin N. Frey
