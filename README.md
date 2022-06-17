@@ -1,10 +1,10 @@
 # FBG-SimPlus V1.0
 Note: If you chose to use elements of this upgraded application in your own work, please cite: </br>
-'''
+```
 Frey, B., Snyder, P., Ziock, K., & Passian, A. (2021). Semicomputational calculation of Bragg shift in stratified materials. Physical Review E, 104(5), 055307.
-'''
+```
 </br>
-This application is a fiber Bragg grating (FBG) simulation tool for Finite Element Method (FEM) models. Originally adapted from ![FBG_SiMul](https://github.com/GilmarPereira/FBG_SiMul/blob/master/LICENSE) by ![GilmarPereira](https://github.com/GilmarPereira), this software features inclusion of temperature variation emulation within the program. To start, the user can supply a raw data text file. Then, the user can render a simulated reflection spectrum of an array of FBG sensors in response to the following parameters:
+This application is a fiber Bragg grating (FBG) simulation tool for Finite Element Method (FEM) models. Originally adapted from [FBG_SiMul](https://github.com/GilmarPereira/FBG_SiMul/blob/master/LICENSE) by [GilmarPereira](https://github.com/GilmarPereira), this software features inclusion of temperature variation emulation within the program. To start, the user can supply a raw data text file. Then, the user can render a simulated reflection spectrum of an array of FBG sensors in response to the following parameters:
 * Longitudinal Strain (Uniform and Non-Uniform)
 * Transverse Stress
 * Temperature
