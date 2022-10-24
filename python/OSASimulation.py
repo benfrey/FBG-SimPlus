@@ -287,7 +287,7 @@ class OSASimulation(object):
         self.FBGOriginalWavel = FBGOriginalWavel
 
         #Calculate photoelastic coef from directional coefs.
-        self.PhotoElasticParam = (self.InitialRefractiveIndex**2/2)*(self.DirectionalRefractiveP12-self.PoissonsCoefficient*(self.DirectionalRefractiveP11-self.DirectionalRefractiveP12))
+        self.PhotoElasticParam = (self.InitialRefractiveIndex**2/2)*(self.DirectionalRefractiveP12-self.PoissonsCoefficient*(self.DirectionalRefractiveP11+self.DirectionalRefractiveP12))
 
         #Determine if we need to emulate a theoretical temperature value
         if self.EmulateTemperature != -1.0:
@@ -504,7 +504,7 @@ class OSASimulation(object):
         self.FBGDirection = 0
         
         #Calculate photoelastic coef from directional coefs.
-        self.PhotoElasticParam = (self.InitialRefractiveIndex**2/2)*(self.DirectionalRefractiveP12-self.PoissonsCoefficient*(self.DirectionalRefractiveP11-self.DirectionalRefractiveP12))
+        self.PhotoElasticParam = (self.InitialRefractiveIndex**2/2)*(self.DirectionalRefractiveP12-self.PoissonsCoefficient*(self.DirectionalRefractiveP11+self.DirectionalRefractiveP12))
 
         #Calculating average strain,a maximum and minumum strain, and average stress  per FBG
         FBGmaxmin={}
@@ -600,4 +600,4 @@ class OSASimulation(object):
             PeakWV=PeakWV1+PeakWV2
             self.FBGOutSum['FBG'+str(b+1)]['WaveWidth'].append(PeakWV)
             
-            print("FBG "+str(b)+ " | Grating period max: "+str(self.graperiodmax)+" | Grating period min: "+str(self.graperiodmin)+" | PeakWV1: "+str(PeakWV1)+" | PeakWV2: "+str(PeakWV2))
+            print("FBG "+str(b)+ " | Grating period max: "+str(self.graperiodmax)+" | Grating period min: "+str(self.graperiodmin)+"| Waveshift: "+str(self.FBGOutSum['FBG'+str(b+1)]['WaveShift'])+" | PeakWV1: "+str(PeakWV1)+" | PeakWV2: "+str(PeakWV2))
